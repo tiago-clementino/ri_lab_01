@@ -18,9 +18,17 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
-        #
-        # inclua seu código aqui
-        #
+        print(response.css('div.conteudo-mapa'))
+        print("ooooooooooooooooooooooooooooooooooooooooooooooooooo")
+        SET_SELECTOR = 'div.conteudo-mapa'
+        for brickset in response.css(SET_SELECTOR):
+            NAME_SELECTOR = 'dt ::text'
+            IMAGE_SELECTOR = 'a ::attr(href)'
+            yield {
+                'name': brickset.css(NAME_SELECTOR).extract_first(),
+                'image': brickset.css(IMAGE_SELECTOR).extract_first(),
+            }
+        
         page = response.url.split("/")[-2]
         filename = 'quotes-%s.html' % page
         with open(filename, 'wb') as f:
