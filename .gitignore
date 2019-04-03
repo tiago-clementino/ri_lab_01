@@ -1,4 +1,7 @@
 __pycache__
 pyenv
 pyenv2
+env
 .vscode
+*.pyc
+*.html

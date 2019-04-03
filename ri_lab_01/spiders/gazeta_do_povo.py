@@ -13,19 +13,14 @@ class GazetaDoPovoSpider(scrapy.Spider):
 
     def __init__(self, *a, **kw):
         super(GazetaDoPovoSpider, self).__init__(*a, **kw)
-        with open('frontier/gazetadopovo.json') as json_file:
+        with open('seeds/gazeta_do_povo.json') as json_file:
                 data = json.load(json_file)
         self.start_urls = list(data.values())
 
     def parse(self, response):
-        #
-        # inclua seu código aqui
-        #
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
+        page = response.url.split(".")[1]
+        filename = '%s.html' % page
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
-        #
-        #
-        #
+
