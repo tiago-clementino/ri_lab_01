@@ -21,7 +21,12 @@ class GazetaDoPovoSpider(scrapy.Spider):
         for section in response.css('section.bl-post'):
             yield {
                 "title": section.css('h1.c-titulo::text').get(),
-                "autor": section.css('ul.c-creditos a::attr(title)').get()
+                "subtitulo": "",
+                "autor": section.css('ul.c-creditos a::attr(title)').get(),
+                "data": section.css('ul.c-creditos time::text').get(),
+                "secao": "",
+                "texto": section.css('article.texto-post p::text').getall()[0],
+                "url": response.url
             }
 
         for next_url in response.css('article.c-chamada a::attr(href)').getall():
