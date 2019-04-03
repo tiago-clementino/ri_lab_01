@@ -5,6 +5,8 @@ import json
 from ri_lab_01.items import RiLab01Item
 from ri_lab_01.items import RiLab01CommentItem
 
+# scrapy shell ./quotes-mapa.html 
+# response.css('.conteudo-mapa a').get()
 
 class GazetaDoPovoSpider(scrapy.Spider):
     name = 'gazeta_do_povo'
@@ -18,16 +20,14 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
-        print(response.css('div.conteudo-mapa'))
-        print("ooooooooooooooooooooooooooooooooooooooooooooooooooo")
-        SET_SELECTOR = 'div.conteudo-mapa'
-        for brickset in response.css(SET_SELECTOR):
-            NAME_SELECTOR = 'dt ::text'
-            IMAGE_SELECTOR = 'a ::attr(href)'
-            yield {
-                'name': brickset.css(NAME_SELECTOR).extract_first(),
-                'image': brickset.css(IMAGE_SELECTOR).extract_first(),
-            }
+
+        LINKS_SELECTOR = 'div.conteudo-mapa a::attr(href)'
+            
+        #self.start_urls = brickset.css(LINKS_SELECTOR).getall(),
+        #self.start_urls = [str(url) for url in self.start_urls]
+        
+        #for url in self.start_urls:
+        #    scrapy.Request(url)   
         
         page = response.url.split("/")[-2]
         filename = 'quotes-%s.html' % page
