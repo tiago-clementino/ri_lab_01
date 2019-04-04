@@ -24,15 +24,16 @@ class GazetaDoPovoSpider(scrapy.Spider):
 
     def parse(self, response):
         parcial = []
+        NEWS_LINK = 'loc::text'
         # <loc> do sitemap
-        for link in response.css('loc::text').getall():
+        for link in response.css(NEWS_LINK).getall():
             yield response.follow(link, self.parse)
             # noticias por dia
-            for day_news in response.css('loc::text').getall():
+            for day_news in response.css(NEWS_LINK).getall():
                 yield response.follow(day_news, self.parse)
 
-                for news in response.css('loc::text').getall():
-                    answer = response.follow(day_news, self.parse)
+                for news in response.css(NEWS_LINK).getall():
+                    answer = response.follow(news, self.parse)
                     parcial.append(
                         {
                             'title':answer.css('h1::text').get(),
@@ -42,10 +43,11 @@ class GazetaDoPovoSpider(scrapy.Spider):
                             'text': answer.css("c-credits mobile-hide").get("paywall-google")
                             }
                         )
-                    print(answer.css('h1::text'))
         
-        print(parcial)
-
+        filename = 'parcial.html' 
+        with open(filename, 'w') as f:
+            for item in parcial:
+                print >> filename, item
         # LINKS_SELECTOR = 'div.loc a'
             
         # self.start_urls = brickset.css(LINKS_SELECTOR).getall(),
@@ -54,11 +56,11 @@ class GazetaDoPovoSpider(scrapy.Spider):
         #for url in self.start_urls:
         #    scrapy.Request(url)   
         
-        page = response.url.split("/")[-2]
-        filename = 'quotes-teste-original.html' 
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
+        # page = response.url.split("/")[-2]
+        # filename = 'quotes-teste-original.html' 
+        # with open(filename, 'wb') as f:
+        #     f.write(response.body)
+        # self.log('Saved file %s' % filename)
         #
         #
         #
