@@ -24,16 +24,16 @@ class GazetaDoPovoSpider(scrapy.Spider):
             section = response.css(selectors['content'])
             
             yield {
-                "title": section.css(selectors['title']).get(),
+                "titulo": section.css(selectors['title']).get(),
                 "autor": section.css(selectors['author']).get(),
                 "data": section.css(selectors['date']).get(),
-                "texto": section.css(selectors['text']).getall(),
+                "texto": "".join(section.css(selectors['text']).getall()),
                 "url": response.url,
                 "subtitulo": "inexistente",
-                "secao": "inexistente",
+                "secao": section.css(selectors['section']).get(),
             }
 
-        for next_url in response.css('article.c-chamada a::attr(href)').getall():
+        for next_url in response.css('article.c-chamada:not(.c-live) a::attr(href)').getall():
             if next_url is not None:
                 yield scrapy.Request(next_url, callback=self.parse)
 
@@ -59,5 +59,6 @@ class GazetaDoPovoSpider(scrapy.Spider):
                 "title": 'h1.c-title::text',
                 "author": 'div.c-credits li.item-name span::text',
                 "date": 'div.c-credits li:last-of-type::text',
-                "text": 'div.c-content p::text'
+                "text": 'div.c-content p::text',
+                "section": 'ul.c-section-header li.c-title-content a::text'
             }
