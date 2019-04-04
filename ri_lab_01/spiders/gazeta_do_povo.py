@@ -18,16 +18,17 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
-        for section in response.css('section.bl-post'):
-            yield {
-                "title": section.css('h1.c-titulo::text').get(),
-                "subtitulo": "",
-                "autor": section.css('ul.c-creditos a::attr(title)').get(),
-                "data": section.css('ul.c-creditos time::text').get(),
-                "secao": "",
-                "texto": section.css('article.texto-post p::text').getall()[0],
-                "url": response.url
-            }
+        selectors = self.get_selectors('en')
+        section = response.css(selectors['content'])
+        yield {
+            "title": section.css(selectors['title']).get(),
+            "autor": section.css(selectors['author']).get(),
+            "data": section.css(selectors['date']).get(),
+            "texto": section.css(selectors['text']).getall(),
+            "url": response.url,
+            "subtitulo": "",
+            "secao": "",
+        }
 
         for next_url in response.css('article.c-chamada a::attr(href)').getall():
             if next_url is not None:
@@ -40,3 +41,20 @@ class GazetaDoPovoSpider(scrapy.Spider):
             f.write(response.body)
         self.log('Saved file %s' % filename)
 
+    def get_selectors(self, type):
+        if type == 'pt':
+            return {
+                "content": "section.bl-post",
+                "title": 'h1.c-titulo::text',
+                "author": 'ul.c-creditos a::attr(title)',
+                "date": 'ul.c-creditos time::text',
+                "text": 'article.texto-post p::text'
+            }
+        else:
+            return {
+                "content": 'article.post',
+                "title": 'h1.c-title::text',
+                "author": 'div.c-credits li.item-name span::text',
+                "date": 'div.c-credits li:last-of-type::text',
+                "text": 'div.c-content p::text'
+            }
