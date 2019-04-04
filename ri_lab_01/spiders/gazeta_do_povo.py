@@ -12,6 +12,9 @@ class GazetaDoPovoSpider(scrapy.Spider):
     name = 'gazeta_do_povo'
     allowed_domains = ['gazetadopovo.com.br']
     start_urls = []
+    custom_settings = {
+        'DEPTH_LIMIT': 1
+    }
 
     def __init__(self, *a, **kw):
         super(GazetaDoPovoSpider, self).__init__(*a, **kw)
@@ -20,17 +23,39 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
+        parcial = []
+        # <loc> do sitemap
+        for link in response.css('loc::text').getall():
+            yield response.follow(link, self.parse)
+            # noticias por dia
+            for day_news in response.css('loc::text').getall():
+                yield response.follow(day_news, self.parse)
 
-        LINKS_SELECTOR = 'div.conteudo-mapa a::attr(href)'
-            
-        #self.start_urls = brickset.css(LINKS_SELECTOR).getall(),
-        #self.start_urls = [str(url) for url in self.start_urls]
+                for news in response.css('loc::text').getall():
+                    answer = response.follow(day_news, self.parse)
+                    parcial.append(
+                        {
+                            'title':answer.css('h1::text').get(),
+                            'link': day_news, 
+                            'session': answer.css("c-title-content").get(),
+                            'date': answer.css("c-credits mobile-hide").get(), 
+                            'text': answer.css("c-credits mobile-hide").get("paywall-google")
+                            }
+                        )
+                    print(answer.css('h1::text'))
         
+        print(parcial)
+
+        # LINKS_SELECTOR = 'div.loc a'
+            
+        # self.start_urls = brickset.css(LINKS_SELECTOR).getall(),
+        # self.start_urls = [str(url) for url in self.start_urls]
+        # print(self.start_urls) 
         #for url in self.start_urls:
         #    scrapy.Request(url)   
         
         page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
+        filename = 'quotes-teste-original.html' 
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
