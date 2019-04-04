@@ -18,17 +18,20 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
-        selectors = self.get_selectors('en')
-        section = response.css(selectors['content'])
-        yield {
-            "title": section.css(selectors['title']).get(),
-            "autor": section.css(selectors['author']).get(),
-            "data": section.css(selectors['date']).get(),
-            "texto": section.css(selectors['text']).getall(),
-            "url": response.url,
-            "subtitulo": "",
-            "secao": "",
-        }
+        is_home_page = response.url == self.start_urls[0]
+        if not is_home_page:
+            selectors = self.get_selectors('en')
+            section = response.css(selectors['content'])
+            
+            yield {
+                "title": section.css(selectors['title']).get(),
+                "autor": section.css(selectors['author']).get(),
+                "data": section.css(selectors['date']).get(),
+                "texto": section.css(selectors['text']).getall(),
+                "url": response.url,
+                "subtitulo": "inexistente",
+                "secao": "inexistente",
+            }
 
         for next_url in response.css('article.c-chamada a::attr(href)').getall():
             if next_url is not None:
