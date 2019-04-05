@@ -33,7 +33,6 @@ class RiLab01Pipeline(object):
             else:
                 if key == "texto":
                     value = "".join(value)
-                if key == "data":
-                    value = value[1:11]
+                
 
             item[key] = value.replace(',', '')
