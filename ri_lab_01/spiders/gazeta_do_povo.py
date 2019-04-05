@@ -31,11 +31,12 @@ class GazetaDoPovoSpider(scrapy.Spider):
                 "autor": section.css(selectors['author']).get(),
                 "data": section.css(selectors['date']).get(),
                 "texto": section.css(selectors['text']).getall(),
-                "subtitulo": "inexistente",
+                "subtitulo": None,
             }
 
         for next_url in response.css(selectors['article']).getall():
             if next_url is not None:
+                next_url = response.urljoin(next_url) if next_url.startswith('/') else next_url
                 yield scrapy.Request(next_url, callback=self.parse)
 
 

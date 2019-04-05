@@ -28,9 +28,12 @@ class RiLab01Pipeline(object):
     
     def format_item(self, item):
         for key, value in item.items():
-            if key == "texto":
-                value = "".join(value)
-            if key == "data":
-                value = value[1:11]
+            if value is None or len(value) == 0:
+                value = "Não encontrado"
+            else:
+                if key == "texto":
+                    value = "".join(value)
+                if key == "data":
+                    value = value[1:11]
 
             item[key] = value.replace(',', '')
