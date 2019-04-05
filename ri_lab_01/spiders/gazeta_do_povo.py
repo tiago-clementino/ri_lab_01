@@ -6,6 +6,7 @@ from ri_lab_01.items import RiLab01Item
 from ri_lab_01.items import RiLab01CommentItem
 
 import pdb
+import ast
 # scrapy shell ./quotes-mapa.html 
 # response.css('.conteudo-mapa a').get()
 
@@ -32,27 +33,42 @@ class GazetaDoPovoSpider(scrapy.Spider):
             yield response.follow(link, callback=self.page_parse)
     
     def page_parse(self, response):
-        
-        session_news = response.css('.coluna1-2')
+
+        session_news = response.css('div.coluna1-2 article a::attr(href)').getall()
+
         for news_item in session_news:
-            # pdb.set_trace()
-            news_link = news_item.css('article > a::attr(href)').get()
-            news_date = news_item.css('article > a::attr(data-publication)').get()
-            news_section = news_item.css('article > a::attr(data-section)').get()
-            yield response.follow(news_link, callback=self.news_parse)
+            yield response.follow(news_item, callback=self.news_parse)
             
     
     def news_parse(self, response):
+
         dic = {}
-        dic['title'] = post.css('.c-title::text').get()
-        dic['subtitle'] = post.css('.c-summary::text').get()
-        dic['author'] = post.css('.item-name > span::text').get()
-
-
-
-
+        pdb.set_trace()
+        title = response.css('h1.col-8.c-left.c-title::text').get()
+        if not title:
+            title = response.css('h1.c-titulo::text').get()
+            date = response.css('div.c-creditos time::text').getall()
+            author = response.css('.c-autor > span::text').get()
+            session = response.css('.c-nome-editoria span::text').get()
+            
+        else:
+            author = response.css('.item-name > span::text').get()
+            date = response.css('.c-credits.mobile-hide li::text').get()
+            session = response.css('.c-nome-editoria span::text').get()
         
-        
+        if(isinstance(date, list)):
+            if len(date)>1:
+                date = date[0].replace('[','').replace(']','')
+            if len(date) == 1:
+                date = date[0]
+
+        text = ' '.join(response.css('div.gp-coluna.col-6.texto-materia.paywall-google p::text').getall())
+
+        subtitle = response.css('h2.c-sumario::text').get()
+        dictionnaire = {'title': title, 'subtitle': subtitle, 'author': author, 'date': date, 'session': session, 'text': text, 'url': response.url}
+
+        yield dictionnaire
         #
         #
         #
+
