@@ -11,8 +11,6 @@ from ri_lab_01.items import RiLab01CommentItem
 from scrapy.exporters import CsvItemExporter
 
 class RiLab01Pipeline(object):
-    # def process_item(self, item, spider):
-    #     return item
 
     def __init__(self):
         self.file = open("output/results.csv", 'wb')
@@ -24,14 +22,15 @@ class RiLab01Pipeline(object):
         self.file.close()
 
     def process_item(self, item, spider):
+        self.format_item(item)
         self.exporter.export_item(item)
-        # self.create_valid_csv(item)
         return item
     
-    def create_valid_csv(self, item):
+    def format_item(self, item):
         for key, value in item.items():
-            is_string = (isinstance(value, basestring))
-            if (is_string and ("," in value.encode('utf-8'))):
-                item[key] = "\"" + value + "\""
-        
-        return item
+            if key == "texto":
+                value = "".join(value)
+            if key == "data":
+                value = value[1:11]
+
+            item[key] = value.replace(',', '')

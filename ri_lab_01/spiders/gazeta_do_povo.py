@@ -18,22 +18,23 @@ class GazetaDoPovoSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
+        selectors = self.get_selectors('en')
         is_home_page = response.url == self.start_urls[0]
+
         if not is_home_page:
-            selectors = self.get_selectors('en')
             section = response.css(selectors['content'])
             
             yield {
+                "url": response.url,
+                "secao": section.css(selectors['section']).get(),
                 "titulo": section.css(selectors['title']).get(),
                 "autor": section.css(selectors['author']).get(),
                 "data": section.css(selectors['date']).get(),
-                "texto": "".join(section.css(selectors['text']).getall()),
-                "url": response.url,
+                "texto": section.css(selectors['text']).getall(),
                 "subtitulo": "inexistente",
-                "secao": section.css(selectors['section']).get(),
             }
 
-        for next_url in response.css('article.c-chamada:not(.c-live) a::attr(href)').getall():
+        for next_url in response.css(selectors['article']).getall():
             if next_url is not None:
                 yield scrapy.Request(next_url, callback=self.parse)
 
@@ -44,9 +45,13 @@ class GazetaDoPovoSpider(scrapy.Spider):
             f.write(response.body)
         self.log('Saved file %s' % filename)
 
+
     def get_selectors(self, type):
+        article_selector = 'section:not(.bloco-opiniao) article.c-chamada.com-img:not(.c-live) a::attr(href)'
+
         if type == 'pt':
             return {
+                "article": article_selector,
                 "content": "section.bl-post",
                 "title": 'h1.c-titulo::text',
                 "author": 'ul.c-creditos a::attr(title)',
@@ -55,6 +60,7 @@ class GazetaDoPovoSpider(scrapy.Spider):
             }
         else:
             return {
+                "article": article_selector,
                 "content": 'article.post',
                 "title": 'h1.c-title::text',
                 "author": 'div.c-credits li.item-name span::text',
