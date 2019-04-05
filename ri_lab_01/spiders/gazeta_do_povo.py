@@ -28,20 +28,46 @@ class GazetaDoPovoSpider(scrapy.Spider):
         
 
         for elem in response.css('dd'):
-            title = elem.attrib('title')
-            link = elem.attrib('href')
-            response.follow(link, call=page_parse)
+            
+            title = elem.css('a::attr(title)').get()
+            link = elem.css('a::attr(href)').get()
+
+            yield response.follow(link, callback=self.page_parse)
     
     def page_parse(self, response):
         
+        session_news = response.css('.coluna1-2')
+        for news_item in session_news:
+            # pdb.set_trace()
+            news_link = news_item.css('article > a::attr(href)').get()
+            news_date = news_item.css('article > a::attr(data-publication)').get()
+            news_section = news_item.css('article > a::attr(data-section)').get()
+            yield response.follow(news_link, callback=self.news_parse)
+            
+            
+        
+        
 
-
-        # pdb.set_trace()
         page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
+        filename = 'quotes-posts.txt'
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
+
+    def news_parse(self, response):
+        post = response.css('.col-12 height-col')
+        dic = {}
+        dic['title'] = post.css('.c-title::text').get()
+        dic['subtitle'] = post.css('.c-summary::text').get()
+        dic['author'] = post.css('.item-name > span::text').get()
+
+        filename = 'rep.txt'
+        with open(filename, 'wb') as f:
+            f.write(dic)
+        return dic
+
+
+
         
         
         #
