@@ -2,8 +2,8 @@
 import scrapy
 import json
 
-from ri_lab_01.items import RiLab01Item
-from ri_lab_01.items import RiLab01CommentItem
+from ri_lab_01.items import ArticleItem
+from ri_lab_01.items import ArticleCommentItem
 
 
 class DiarioDoCentroDoMundoSpider(scrapy.Spider):

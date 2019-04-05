@@ -62,7 +62,7 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'ri_lab_01.middlewares.RiLab01SpiderMiddleware': 543,
+#    'ri_lab_01.middlewares.ArticleSpiderMiddleware': 543,
 #}
 
 DOWNLOADER_MIDDLEWARES = {
@@ -85,7 +85,7 @@ ROTATING_PROXY_LIST = [
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'ri_lab_01.middlewares.RiLab01DownloaderMiddleware': 543,
+#    'ri_lab_01.middlewares.ArticleDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -97,10 +97,10 @@ ROTATING_PROXY_LIST = [
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'ri_lab_01.pipelines.RiLab01Pipeline': 300,
+#    'ri_lab_01.pipelines.ArticlePipeline': 300,
 #}
 ITEM_PIPELINES = {
-   'ri_lab_01.pipelines.RiLab01Pipeline': 300,
+   'ri_lab_01.pipelines.ArticlePipeline': 300,
 }
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
