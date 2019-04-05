@@ -13,9 +13,7 @@ class GazetaDoPovoSpider(scrapy.Spider):
     name = 'gazeta_do_povo'
     allowed_domains = ['gazetadopovo.com.br']
     start_urls = []
-    custom_settings = {
-        'DEPTH_LIMIT': 1
-    }
+
 
     def __init__(self, *a, **kw):
         super(GazetaDoPovoSpider, self).__init__(*a, **kw)
@@ -29,7 +27,6 @@ class GazetaDoPovoSpider(scrapy.Spider):
 
         for elem in response.css('dd'):
             
-            title = elem.css('a::attr(title)').get()
             link = elem.css('a::attr(href)').get()
 
             yield response.follow(link, callback=self.page_parse)
@@ -44,27 +41,13 @@ class GazetaDoPovoSpider(scrapy.Spider):
             news_section = news_item.css('article > a::attr(data-section)').get()
             yield response.follow(news_link, callback=self.news_parse)
             
-            
-        
-        
-
-        page = response.url.split("/")[-2]
-        filename = 'quotes-posts.txt'
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
-
+    
     def news_parse(self, response):
-        post = response.css('.col-12 height-col')
         dic = {}
         dic['title'] = post.css('.c-title::text').get()
         dic['subtitle'] = post.css('.c-summary::text').get()
         dic['author'] = post.css('.item-name > span::text').get()
 
-        filename = 'rep.txt'
-        with open(filename, 'wb') as f:
-            f.write(dic)
-        return dic
 
 
 
