@@ -18,14 +18,22 @@ class CartaCapitalSpider(scrapy.Spider):
         self.start_urls = list(data.values())
 
     def parse(self, response):
+        urls = [a.attrib['href'] for a in response.css('h3 > a.eltdf-pt-link')]
+
+        for url in urls:
+            yield scrapy.Request(url, self.parse_aux)
         #
         # inclua seu código aqui
         #
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
         #
         #
         #
+
+    def parse_aux(self, response):
+        yield {
+            'title': response.css('h1.eltdf-title-text::text').get(),
+            'section': response.css('div.eltdf-post-info-category > a::text').get(),
+            'subtitle': response.css('div.wpb_text_column > div.wpb_wrapper > h3::text').get(),
+            'author': response.css('a.eltdf-post-info-author-link::text').get(),
+            'text': response.css('div.eltdf-post-text-inner::text').get()
+        }
