@@ -51,6 +51,8 @@ A pasta `seeds` traz em arquivo JSON as sementes do algoritmo de *crawling*, ou 
 ### Comandos para executar o projeto
 
 > ```shell
-> scrapy list # lista todos os spiders do projeto
-> scrapy crawl __nome_do_spider__ -o output/results.csv # subistitua pelo nome do spider atribuido a você.
+> make run # executa o crawler para o site brasil_elpais
+> make export # exporta resultados json do crawler para formato csv.
 > ```
+
+* Obs: Código dos comandos disponível no arquivo `Makefile` em caso de dúvidas.

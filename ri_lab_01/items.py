@@ -8,17 +8,24 @@
 import scrapy
 
 
-class RiLab01Item(scrapy.Item):
-    _id = scrapy.Field()
+class ArticleItem(scrapy.Item):
+    '''
+    The ArticleItem represents the fundamental \
+    fields of an article.
+    '''
     title = scrapy.Field()
-    sub_title = scrapy.Field()
+    subtitle = scrapy.Field()
     author = scrapy.Field()
     date = scrapy.Field()
     section = scrapy.Field()
     text = scrapy.Field()
     url = scrapy.Field()
 
-class RiLab01CommentItem(scrapy.Item):
+class ArticleCommentItem(scrapy.Item):
+    '''
+    The ArticleCommentItem represents the fundamental \
+    fields of an article comment.
+    '''
     id_article = scrapy.Field()
     date = scrapy.Field()
     author = scrapy.Field()
