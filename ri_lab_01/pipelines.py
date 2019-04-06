@@ -9,6 +9,7 @@ from scrapy.conf import settings
 from ri_lab_01.items import RiLab01Item
 from ri_lab_01.items import RiLab01CommentItem
 from scrapy.exporters import CsvItemExporter
+from scrapy.exceptions import DropItem
 
 class RiLab01Pipeline(object):
 
@@ -22,6 +23,12 @@ class RiLab01Pipeline(object):
         self.file.close()
 
     def process_item(self, item, spider):
+        this_year = '2019'
+        date = item['data']
+        year = date[7:11] if date else this_year
+        if year < this_year:
+            raise DropItem('Item not from 2019')
+        
         self.format_item(item)
         self.exporter.export_item(item)
         return item
@@ -34,5 +41,4 @@ class RiLab01Pipeline(object):
                 if key == "texto":
                     value = "".join(value)
                 
-
             item[key] = value.replace(',', '')
