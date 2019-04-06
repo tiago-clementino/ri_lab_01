@@ -27,29 +27,34 @@ class CartaCapitalSpider(scrapy.Spider):
         return False
 
     def isValidNews(self, link):
-        if (self.isValidCartaCapitalLink(link) and (self.visited_urls.count(link) == 0) and (link is not None)):
+        if ((link is not None) and self.isValidCartaCapitalLink(link) and (self.visited_urls.count(link) == 0)):
             return True
         return False
 
-    def parse(self, response):
-        urls = [a.attrib['href'] for a in response.css('h3 > a.eltdf-pt-link')]
+    def getDate(self, response):
+        date = response.xpath("//meta[@property='article:published_time']/@content").get()
+        if(date is not None):
+            date = date.replace("T", " ").split("+")[0]
+            date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+        return date
 
-        for url in urls:
-            yield scrapy.Request(url, self.parse_aux)
+    def parse(self, response):
+        if (int(response.css('div.eltdf-post-info-date a::attr(href)').get().split("/")[-3]) >= 2018):
+            yield self.parse_aux(response)
 
         for next in response.css('a::attr(href)').getall():
             if (self.isValidNews(next)):
                 yield scrapy.Request(next, self.parse)
-            self.urls.append(next)
+            self.visited_urls.append(next)
 
     def parse_aux(self, response):
-        if (int(response.css('div.eltdf-post-info-date a::attr(href)').get().split("/")[-3]) >= 2018):
-            yield {
-                'title': response.css('h1.eltdf-title-text::text').get(),
-                'sub_title': response.css('div.wpb_text_column > div.wpb_wrapper > h3::text').get(),
-                'author': response.css('a.eltdf-post-info-author-link::text').get(),
-                'date': datetime.strptime(response.xpath("//meta[@property='article:published_time']/@content").get().replace("T", " ").split("+")[0], '%Y-%m-%d %H:%M:%S'),
-                'section': response.css('div.eltdf-post-info-category > a::text').get(),
-                'text': "".join(response.css('article p::text').getall()),
-                'url': response.url
-            }
+        data = {
+            'title': response.css('h1.eltdf-title-text::text').get(),
+            'sub_title': response.css('div.wpb_text_column > div.wpb_wrapper > h3::text').get(),
+            'author': response.css('a.eltdf-post-info-author-link::text').get(),
+            'date': self.getDate(response),
+            'section': response.css('div.eltdf-post-info-category > a::text').get(),
+            'text': "".join(response.css('article p::text').getall()),
+            'url': response.url
+        }
+        return data
