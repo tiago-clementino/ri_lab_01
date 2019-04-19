@@ -13130,10 +13130,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
 <span class="s1">code_show=true; </span>
 <span class="s1">function code_toggle() {</span>
 <span class="s1"> if (code_show){</span>
@@ -13158,7 +13160,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[1]:</div>
 
 
 
@@ -13186,7 +13188,7 @@ $( document ).ready(code_toggle);
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log10</span>
@@ -13202,7 +13204,7 @@ $( document ).ready(code_toggle);
 <span class="kn">from</span> <span class="nn">nltk.util</span> <span class="k">import</span> <span class="n">ngrams</span>    
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">stopwords</span>
 <span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">FreqDist</span><span class="p">,</span> <span class="n">word_tokenize</span><span class="p">,</span> <span class="n">stem</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
 
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="n">default_stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;portuguese&#39;</span><span class="p">))</span>
@@ -13215,7 +13217,7 @@ $( document ).ready(code_toggle);
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">inf</span><span class="p">,</span> <span class="n">sqrt</span>
@@ -14895,44 +14897,44 @@ Bigrams occurring once:        94416
   </thead>
   <tbody>
     <tr>
-      <td>hoje</td>
-      <td>hoj</td>
+      <td>silenciosa</td>
+      <td>silenc</td>
     </tr>
     <tr>
-      <td>havia</td>
-      <td>hav</td>
+      <td>partir</td>
+      <td>part</td>
     </tr>
     <tr>
-      <td>Maduro</td>
-      <td>madur</td>
+      <td>retrospectiva</td>
+      <td>retrospect</td>
     </tr>
     <tr>
-      <td>instituição</td>
-      <td>instituiçã</td>
+      <td>ocasião</td>
+      <td>ocasiã</td>
     </tr>
     <tr>
-      <td>defesa</td>
-      <td>defes</td>
+      <td>Solari</td>
+      <td>solar</td>
     </tr>
     <tr>
-      <td>sobre</td>
-      <td>sobr</td>
+      <td>parte</td>
+      <td>part</td>
     </tr>
     <tr>
-      <td>bom</td>
-      <td>bom</td>
+      <td>criminosas</td>
+      <td>crimin</td>
     </tr>
     <tr>
-      <td>remetido</td>
-      <td>remet</td>
+      <td>notícias</td>
+      <td>notíc</td>
     </tr>
     <tr>
-      <td>Sontag</td>
-      <td>sontag</td>
+      <td>presidentes</td>
+      <td>president</td>
     </tr>
     <tr>
-      <td>somaram</td>
-      <td>som</td>
+      <td>volante</td>
+      <td>volant</td>
     </tr>
   </tbody>
 </table>
@@ -15600,48 +15602,48 @@ Bigrams occurring once:        94416
   </thead>
   <tbody>
     <tr>
-      <th>42484</th>
-      <td>Compreensível</td>
-      <td>1</td>
-      <td>-5.087377</td>
-      <td>ln(pred_r)</td>
-      <td>4.270647</td>
-      <td>no_stemming</td>
-    </tr>
-    <tr>
-      <th>16982</th>
-      <td>avós</td>
+      <th>5650</th>
+      <td>impedimento</td>
       <td>4</td>
       <td>-4.485317</td>
-      <td>ln(pred_r)</td>
-      <td>3.668587</td>
-      <td>stemming</td>
-    </tr>
-    <tr>
-      <th>23104</th>
-      <td>eclod</td>
-      <td>1</td>
-      <td>-5.087377</td>
-      <td>ln(pred_r)</td>
-      <td>4.270647</td>
-      <td>stemming</td>
-    </tr>
-    <tr>
-      <th>48765</th>
-      <td>Ardenas</td>
-      <td>1</td>
-      <td>-5.087377</td>
-      <td>ln(pred_r)</td>
-      <td>4.270647</td>
+      <td>ln(r)</td>
+      <td>3.752125</td>
       <td>no_stemming</td>
     </tr>
     <tr>
-      <th>45696</th>
-      <td>Hook</td>
+      <th>10162</th>
+      <td>exaltado</td>
+      <td>2</td>
+      <td>-4.786347</td>
+      <td>ln(r)</td>
+      <td>4.007022</td>
+      <td>no_stemming</td>
+    </tr>
+    <tr>
+      <th>612</th>
+      <td>assunt</td>
+      <td>42</td>
+      <td>-3.464127</td>
+      <td>ln(r)</td>
+      <td>2.787460</td>
+      <td>stemming</td>
+    </tr>
+    <tr>
+      <th>25511</th>
+      <td>stonecrest</td>
       <td>1</td>
       <td>-5.087377</td>
       <td>ln(pred_r)</td>
       <td>4.270647</td>
+      <td>stemming</td>
+    </tr>
+    <tr>
+      <th>26579</th>
+      <td>atuais</td>
+      <td>14</td>
+      <td>-3.941249</td>
+      <td>ln(pred_r)</td>
+      <td>3.124519</td>
       <td>no_stemming</td>
     </tr>
   </tbody>
@@ -15698,7 +15700,7 @@ Bigrams occurring once:        94416
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;ggplot: (-9223363292607186018)&gt;</pre>
+<pre>&lt;ggplot: (8789151349547)&gt;</pre>
 </div>
 
 </div>
@@ -15927,48 +15929,48 @@ Bigrams occurring once:        94416
   </thead>
   <tbody>
     <tr>
-      <th>99705</th>
-      <td>(vir, faz-me-r)</td>
-      <td>1</td>
-      <td>-5.087373</td>
+      <th>3460</th>
+      <td>(brasileiros, vivendo)</td>
+      <td>2</td>
+      <td>-4.786343</td>
       <td>ln(r)</td>
-      <td>4.998721</td>
-      <td>stemming</td>
-    </tr>
-    <tr>
-      <th>64792</th>
-      <td>(após, primeira)</td>
-      <td>1</td>
-      <td>-5.087373</td>
-      <td>ln(r)</td>
-      <td>4.811528</td>
+      <td>3.539202</td>
       <td>no_stemming</td>
     </tr>
     <tr>
-      <th>78892</th>
-      <td>(orçament, govern)</td>
+      <th>57935</th>
+      <td>(líd, primeir)</td>
       <td>1</td>
       <td>-5.087373</td>
       <td>ln(r)</td>
-      <td>4.897038</td>
+      <td>4.762949</td>
       <td>stemming</td>
     </tr>
     <tr>
-      <th>31091</th>
-      <td>(sid, agred)</td>
+      <th>155830</th>
+      <td>(faz, obra)</td>
       <td>1</td>
       <td>-5.087373</td>
-      <td>ln(r)</td>
-      <td>4.492649</td>
+      <td>ln(pred_r)</td>
+      <td>4.759471</td>
+      <td>no_stemming</td>
+    </tr>
+    <tr>
+      <th>165412</th>
+      <td>(perig, diz)</td>
+      <td>1</td>
+      <td>-5.087373</td>
+      <td>ln(pred_r)</td>
+      <td>4.759471</td>
       <td>stemming</td>
     </tr>
     <tr>
-      <th>58919</th>
-      <td>(parlament, abril)</td>
+      <th>18730</th>
+      <td>(múltipl, ident)</td>
       <td>1</td>
       <td>-5.087373</td>
       <td>ln(r)</td>
-      <td>4.770263</td>
+      <td>4.272561</td>
       <td>stemming</td>
     </tr>
   </tbody>
@@ -16025,7 +16027,7 @@ Bigrams occurring once:        94416
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;ggplot: (8744243104271)&gt;</pre>
+<pre>&lt;ggplot: (8789142718528)&gt;</pre>
 </div>
 
 </div>
@@ -16055,7 +16057,7 @@ Bigrams occurring once:        94416
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">actual_nwords</span> <span class="o">=</span> <span class="n">df_w_stem</span><span class="p">[</span><span class="s1">&#39;Freq.&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -16197,7 +16199,7 @@ Bigrams occurring once:        94416
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">actual_nbi</span> <span class="o">=</span> <span class="n">df_bi_stem</span><span class="p">[</span><span class="s1">&#39;Freq.&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
